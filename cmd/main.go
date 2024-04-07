@@ -1,10 +1,9 @@
 package main
 
-import "github.com/dayroromero/stori-challenge/pkg/db"
+import (
+	"github.com/dayroromero/stori-challenge/pkg/csv"
+)
 
 func main() {
-	dbUrl := "postgres://postgres:postgres@localhost:5432/stori"
-
-	db.Init(dbUrl)
-
+	csv.File_processor()
 }

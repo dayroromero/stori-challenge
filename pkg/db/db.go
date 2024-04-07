@@ -2,6 +2,7 @@ package db
 
 import (
 	"log"
+	"sync"
 
 	"github.com/dayroromero/stori-challenge/pkg/db/models"
 	"gorm.io/driver/postgres"
@@ -11,6 +12,20 @@ import (
 
 type Handler struct {
 	DB *gorm.DB
+}
+
+var (
+	once     sync.Once
+	instance Handler
+)
+
+func GetInstance() Handler {
+	dbUrl := "postgres://postgres:postgres@localhost:5432/stori"
+	once.Do(func() {
+		instance = Init(dbUrl)
+	})
+
+	return instance
 }
 
 func Init(url string) Handler {

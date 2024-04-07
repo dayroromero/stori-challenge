@@ -6,8 +6,9 @@ import (
 
 type Transaction struct {
 	ID        uint `gorm:"primaryKey;autoIncrement"`
-	AccountID uint
+	AccountID uint `gorm:"foreignKey:ID"`
 	Amount    float64
+	Date      time.Time
 	Type      string
-	CreatedAt time.Time
+	CreatedAt time.Time `gorm:"default:current_timestamp"`
 }
