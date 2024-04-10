@@ -4,7 +4,8 @@ import (
 	"log"
 	"sync"
 
-	"github.com/dayroromero/stori-challenge/pkg/db/models"
+	"github.com/dayroromero/stori-challenge/pkg/models"
+	"github.com/dayroromero/stori-challenge/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -20,7 +21,7 @@ var (
 )
 
 func GetInstance() Handler {
-	dbUrl := "postgres://postgres:postgres@localhost:5432/stori"
+	dbUrl := utils.GetEnvVar("DBSTRING_CONNECTION")
 	once.Do(func() {
 		instance = Init(dbUrl)
 	})
@@ -29,6 +30,7 @@ func GetInstance() Handler {
 }
 
 func Init(url string) Handler {
+	log.Println("Init Database")
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
